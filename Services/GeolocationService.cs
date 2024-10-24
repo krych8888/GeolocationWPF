@@ -106,7 +106,14 @@ public class GeolocationService : IGeolocationService
     }   
 
     private static string? UrlToIpAddress(string url)
-    {       
-        return Dns.GetHostAddresses(new Uri(url).Host)[0]?.ToString();
+    {
+        try
+        {
+            return Dns.GetHostAddresses(new Uri(url).Host)[0]?.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException("Can not extract valid IP from site address");
+        }
     }
 }
