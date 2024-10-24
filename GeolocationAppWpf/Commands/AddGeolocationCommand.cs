@@ -21,29 +21,38 @@ public class AddGeolocationCommand : AsyncComandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        var newGeolocation = JsonConvert.DeserializeObject<GeolocationData>(_model.DataTextBox);
-        if (newGeolocation != null)
+        _model.ErrorMessage = string.Empty;
+        try 
         {
-            var response = await _geolocation.AddGeolocationData(newGeolocation);
-            if (response != null)
+            var newGeolocation = JsonConvert.DeserializeObject<GeolocationData>(_model.DataTextBox);
+            if (newGeolocation != null)
             {
-                _geolocation.Data = _geolocation.FormatData(response.Data);
-                _geolocation.IsDownloaded = true;
-                _model.SyncTextBlock = "Synchronized";
+                var response = await _geolocation.AddGeolocationData(newGeolocation);
+                if (response != null)
+                {
+                    _geolocation.Data = _geolocation.FormatData(response.Data);
+                    _geolocation.IsDownloaded = true;
+                    _model.SyncTextBlock = "Synchronized";
+                }
+                else
+                {
+                    _geolocation.IsDownloaded = false;
+                    _model.SyncTextBlock = "Not synchronized";
+                    _model.ErrorMessage = "Something went wrong during adding to DB";
+                }
             }
-            else 
+            else
             {
-                _geolocation.Data = "Something went wrong during adding to DB";
+                _model.ErrorMessage = "GeolocationData model not valid";
                 _geolocation.IsDownloaded = false;
                 _model.SyncTextBlock = "Not synchronized";
-            }            
+            }
         }
-        else
+        catch(Exception ex)
         {
-            _geolocation.Data = "GeolocationData model not valid";
-            _geolocation.IsDownloaded = false;
-            _model.SyncTextBlock = "Not synchronized";
-        }
+            _geolocation.Data = string.Empty;
+            _model.ErrorMessage = ex.Message;
+        }       
     }
 
     public override bool CanExecute(object? parameter)

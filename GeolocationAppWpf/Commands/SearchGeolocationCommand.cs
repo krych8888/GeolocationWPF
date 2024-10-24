@@ -19,20 +19,29 @@ public class SearchGeolocationCommand : AsyncComandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        var response = await _geolocation.SearchGeolocationData(_model.SearchTextBox);       
-        if (response?.Data != null)
+        try 
         {
-            _model.InfoTextBlock = $"Geolocation data for: {response.Data.Ip}";
-            _model.DataTextBox = _geolocation.FormatData(response.Data);
-            _geolocation.IsDownloaded = response.IsDownloaded;
-            _model.SyncTextBlock = response.IsDownloaded ? "Synchronized" : "Not synchronized";
+            _model.ErrorMessage = string.Empty;
+            var response = await _geolocation.SearchGeolocationData(_model.SearchTextBox);
+            if (response?.Data != null)
+            {
+                _model.InfoTextBlock = $"Geolocation data for: {response.Data.Ip}";
+                _model.DataTextBox = _geolocation.FormatData(response.Data);
+                _geolocation.IsDownloaded = response.IsDownloaded;
+                _model.SyncTextBlock = response.IsDownloaded ? "Synchronized" : "Not synchronized";
+            }
+            else
+            {
+                _model.ErrorMessage = "Not found";
+                _geolocation.IsDownloaded = false;
+                _model.SyncTextBlock = "Not synchronized";
+            }
         }
-        else 
+        catch (Exception ex)
         {
-            _geolocation.Data = "Not found";
-            _geolocation.IsDownloaded = false;
-            _model.SyncTextBlock = "Not synchronized";
-        }
+            _model.DataTextBox = string.Empty;
+            _model.ErrorMessage = ex.Message;
+        }        
     }
 
     public override bool CanExecute(object? parameter)

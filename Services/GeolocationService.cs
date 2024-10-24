@@ -104,19 +104,6 @@ public class GeolocationService : IGeolocationService
         }
 
         var geolocationDataIpStack = _mapper.Map<GeolocationData>(await _ipStackService.GetIpAddressDetailsAsync(ipAddress: ipAddress));
-        //for tsting
-        geolocationDataIpStack.Ip = ipAddress;
-        geolocationDataIpStack.Latitude = 100;
-        geolocationDataIpStack.Longitude = 100;
-        geolocationDataIpStack.Location = new Location();
-        geolocationDataIpStack.City = ipAddress;
-        geolocationDataIpStack.Zip = "123";
-        geolocationDataIpStack.ContinentCode = "123";
-        geolocationDataIpStack.ContinentName = "123";
-        geolocationDataIpStack.CountryCode = "123";
-        geolocationDataIpStack.CountryName = "123";
-        geolocationDataIpStack.RegionCode = "123";
-        geolocationDataIpStack.RegionName = "123";
 
         if (geolocationDataIpStack != null)
         {

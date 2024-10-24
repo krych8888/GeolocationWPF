@@ -62,6 +62,23 @@ public class GeolocationFinderViewModel : ViewModelBase
         }
     }
 
+    string _errorMessage;
+    public string ErrorMessage
+    {
+        get
+        {
+            return _errorMessage;
+        }
+        set
+        {
+            _errorMessage = value;
+            OnPropertyChanged(nameof(ErrorMessage));
+            OnPropertyChanged(nameof(HasErrorMessage));
+        }
+    }
+
+    public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
+
     public ICommand SearchCommand { get; }
     public ICommand AddCommand { get; }
     public ICommand DeleteCommand { get; }

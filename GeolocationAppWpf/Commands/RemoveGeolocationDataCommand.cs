@@ -21,29 +21,32 @@ public class RemoveGeolocationDataCommand : AsyncComandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        if (!_geolocation.IsDownloaded) 
+        try 
         {
-            return;
-        }
+            var newGeolocation = JsonConvert.DeserializeObject<GeolocationData>(_model.DataTextBox);
 
-        var newGeolocation = JsonConvert.DeserializeObject<GeolocationData>(_model.DataTextBox);
-
-        if (newGeolocation != null)
-        {
-            var deletedIp = await _geolocation.Delete(newGeolocation);           
-            if (deletedIp != null)
+            if (newGeolocation != null)
             {
-                _geolocation.IsDownloaded = false;
-                _model.SyncTextBlock = "Not synchronized";
+                var deletedIp = await _geolocation.Delete(newGeolocation);
+                if (deletedIp != null)
+                {
+                    _geolocation.IsDownloaded = false;
+                    _model.SyncTextBlock = "Not synchronized";
+                }
+                else
+                {
+                    _model.ErrorMessage = "Something went wrong during removing item from DB";
+                }
             }
-            else 
+            else
             {
-                _model.DataTextBox = "Something went wrong during removing item from DB";
+                _model.ErrorMessage = "GeolocationData model not valid";
             }
         }
-        else
+        catch (Exception ex)
         {
-            _model.DataTextBox = "GeolocationData model not valid";
+            _model.DataTextBox = string.Empty;
+            _model.ErrorMessage = ex.Message;
         }
     }
 
