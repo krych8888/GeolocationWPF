@@ -4,9 +4,9 @@ using IpStack.Models;
 
 namespace EventBookingApi.MappingProfiles;
 
-public class DamoinToResponse : Profile
+public class GeolocationProfile : Profile
 {
-    public DamoinToResponse()
+    public GeolocationProfile()
     {
         CreateMap<IpAddressDetails, GeolocationData>();
 

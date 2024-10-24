@@ -65,37 +65,29 @@ public class GeolocationService : IGeolocationService
         return response;
     }
 
-    public async Task<GeolocationDataResposne?> GetGeolocationData(string? siteAddress)
+    public async Task<GeolocationDataResposne?> GetGeolocationData(string? siteAddress) 
     {
         if (string.IsNullOrEmpty(siteAddress))
         {
             return null;
         }
 
-        var ip = IPAddress.TryParse(siteAddress, out IPAddress? result) ? result.ToString() : null;
-        if (!string.IsNullOrEmpty(ip))
+        string? ipAddress = null;
+        if (IPAddress.TryParse(siteAddress, out IPAddress? result))
         {
-            return await GetGeolocationDataByIp(ip);
+            ipAddress = result.ToString();
         }
-        
-        return await GetGeolocationDataByIp(UrlToIpAddress(siteAddress));
-    }
-
-    private async Task<GeolocationDataResposne?> GetGeolocationDataByIp(string? ipAddress) 
-    {
-        if (string.IsNullOrEmpty(ipAddress))
+        else 
         {
-            return null;
-        }
-
-        var ip = IPAddress.TryParse(ipAddress, out IPAddress? result) ? result.ToString() : null;
-        if (string.IsNullOrEmpty(ip)) 
-        {
-            return null;
+            ipAddress = UrlToIpAddress(siteAddress);
+            if (string.IsNullOrEmpty(ipAddress)) 
+            {
+                return null;
+            }
         }
 
         var response = new GeolocationDataResposne();
-        var geolocationDataService = await _unitOfWork.Geolocations.GetByIp(ip);
+        var geolocationDataService = await _unitOfWork.Geolocations.GetByIp(ipAddress);
         if (geolocationDataService != null)
         {
             response.IsDownloaded = true;

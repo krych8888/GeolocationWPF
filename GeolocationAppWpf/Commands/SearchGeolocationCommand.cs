@@ -25,10 +25,18 @@ public class SearchGeolocationCommand : AsyncComandBase
             var response = await _geolocation.SearchGeolocationData(_model.SearchTextBox);
             if (response?.Data != null)
             {
-                _model.InfoTextBlock = $"Geolocation data for: {response.Data.Ip}";
-                _model.DataTextBox = _geolocation.FormatData(response.Data);
-                _geolocation.IsDownloaded = response.IsDownloaded;
-                _model.SyncTextBlock = response.IsDownloaded ? "Synchronized" : "Not synchronized";
+                if (response.Data.Ip == null)
+                {
+                    _model.DataTextBox = string.Empty;
+                    _model.ErrorMessage = "IpStack API not avilable, please upgread your subscription plan or change API key";
+                }
+                else 
+                {
+                    _model.InfoTextBlock = $"Geolocation data for: {response.Data.Ip}";
+                    _model.DataTextBox = _geolocation.FormatData(response.Data);
+                    _geolocation.IsDownloaded = response.IsDownloaded;
+                    _model.SyncTextBlock = response.IsDownloaded ? "Synchronized" : "Not synchronized";
+                }
             }
             else
             {

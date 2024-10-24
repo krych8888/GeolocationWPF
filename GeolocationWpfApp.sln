@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeolocationAppWpf", "GeolocationAppWpf\GeolocationAppWpf.csproj", "{DBA8CC0A-849B-4C45-9F77-D4209C6247A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{A7D00704-1BE3-4A73-9E1D-17CD418B716B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DBA8CC0A-849B-4C45-9F77-D4209C6247A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBA8CC0A-849B-4C45-9F77-D4209C6247A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBA8CC0A-849B-4C45-9F77-D4209C6247A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D00704-1BE3-4A73-9E1D-17CD418B716B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D00704-1BE3-4A73-9E1D-17CD418B716B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D00704-1BE3-4A73-9E1D-17CD418B716B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D00704-1BE3-4A73-9E1D-17CD418B716B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
